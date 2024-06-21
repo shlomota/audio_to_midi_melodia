@@ -8,6 +8,7 @@ import os
 import numpy as np
 from midiutil.MidiFile import MIDIFile
 from scipy.signal import medfilt
+import librosa
 import jams
 import __init__
 
@@ -157,6 +158,7 @@ def audio_to_midi_melodia(infile, outfile, bpm, smooth=0.25, minduration=0.1,
     fs = 44100
     hop = 128
 
+
     # load audio using librosa
     print("Loading audio...")
     data, sr = soundfile.read(infile)
@@ -167,6 +169,8 @@ def audio_to_midi_melodia(infile, outfile, bpm, smooth=0.25, minduration=0.1,
     if sr != fs:
         data = resampy.resample(data, sr, fs)
         sr = fs
+    # data = librosa.effects.pitch_shift(data, sr, n_steps=12)  # Shift pitch by 12 semitones (1 octave)
+
 
     # extract melody using melodia vamp plugin
     print("Extracting melody f0 with MELODIA...")
